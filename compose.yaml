@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  race-db:
+    image: mysql:8.0
+    container_name: race-db
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_DATABASE: race_db
+      MYSQL_ROOT_PASSWORD: 123456
+      SPRING_JPA_HIBERNATE_DDL_AUTO : update
+      SPRING_JPA_SHOW_SQL : true
+    volumes:
+      - race-db-data:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 10
+
+  race-service:
+    build: ./race-service
+    container_name: race-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      race-db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://race-db:3306/race_db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+volumes:
+  race-db-data:
