@@ -1,0 +1,25 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: race-service-route
+          uri: lb://RACE-SERVICE
+          predicates:
+            - Path=/api/races/**
+        - id: season-service-route
+          uri: lb://SEASON-SERVICE
+          predicates:
+            - Path=/api/seasons/**
+        - id: tournament-service-route
+          uri: lb://TOURNAMENT-SERVICE
+          predicates:
+            - Path=/api/tournaments/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

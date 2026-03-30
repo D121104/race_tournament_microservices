@@ -1,4 +1,4 @@
-package com.tkkt.season_service;
+package com.pttk.api_gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class SeasonServiceApplication {
+public class ApiGatewayApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SeasonServiceApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(ApiGatewayApplication.class, args);
+	}
 
 }

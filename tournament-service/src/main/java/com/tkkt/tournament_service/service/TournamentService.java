@@ -35,7 +35,7 @@ public class TournamentService {
 
     @Transactional(readOnly = true)
     public List<Tournament> getAllTournament() {
-        return tournamentRepository.getAllTournament();
+        return tournamentRepository.findAll();
     }
 
     @Transactional

@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/race/")
+@RequestMapping("/api/races/")
 public class RaceController {
     private  final  RaceService raceService;
 

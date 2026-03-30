@@ -1,9 +1,11 @@
-package com.tkkt.race_tournament.tournament_service;
+package com.tkkt.tournament_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class TournamentServiceApplication {
 
 	public static void main(String[] args) {

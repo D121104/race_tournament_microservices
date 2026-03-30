@@ -1,5 +1,23 @@
 
 services:
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - race-tournament-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - eureka-server
+    networks:
+      - race-tournament-network
+
   race-db:
     image: mysql:8.0
     container_name: race-db
@@ -16,6 +34,9 @@ services:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 5s
       retries: 10
+    networks:
+      - race-tournament-network
+
 
   race-service:
     build: ./race-service
@@ -23,6 +44,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      eureka-server:
+        condition: service_started
       race-db:
         condition: service_healthy
     environment:
@@ -30,6 +53,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - race-tournament-network
 
   season-db:
     image: mysql:8.0
@@ -47,6 +72,9 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
+    networks:
+      - race-tournament-network
+
 
   season-service:
     build: ./season-service
@@ -54,6 +82,8 @@ services:
     ports:
       - "8081:8081"
     depends_on:
+      eureka-server:
+        condition: service_started
       season-db:
         condition: service_healthy
     environment:
@@ -61,6 +91,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - race-tournament-network
 
   tournament-db:
     image: mysql:8.0
@@ -78,6 +110,9 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
+    networks:
+      - race-tournament-network
+
 
   tournament-service:
     build: ./tournament-service
@@ -85,6 +120,8 @@ services:
     ports:
       - "8082:8082"
     depends_on:
+      eureka-server:
+        condition: service_started
       tournament-db:
         condition: service_healthy
     environment:
@@ -92,8 +129,15 @@ services:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - race-tournament-network
+
 
 volumes:
   race-db-data:
   season-db-data:
   tournament-db-data:
+
+networks:
+  race-tournament-network:
+    driver: bridge
