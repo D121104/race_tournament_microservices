@@ -1,11 +1,10 @@
-package com.tkkt.repository;
+package com.tkkt.tournament_service.repository;
 
-import com.tkkt.entity.Season;
-import com.tkkt.entity.Tournament;
+import com.tkkt.tournament_service.entity.Tournament;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface TournamentRepository extends JpaRepository<Tournament,Long> {
-
+    List<Tournament> getAllTournament();
 }

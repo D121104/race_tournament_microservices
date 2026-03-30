@@ -20,7 +20,7 @@ public class SeasonController {
     public ApiResponse<Season> createSeason(@RequestBody CreateSeasonRequest createSeasonRequest) {
         return ApiResponse.<Season>builder()
                 .code(201)
-                .message("")
+                .message("Tạo mùa giải thành công")
                 .result(seasonService.createSeason(createSeasonRequest))
                 .build();
     }
@@ -29,7 +29,7 @@ public class SeasonController {
     public ApiResponse<Season> getSeasonById(@PathVariable("seasonId") Long seasonId) {
         return ApiResponse.<Season>builder()
                 .code(200)
-                .message("")
+                .message("Lấy thông tin mùa giải theo id thành công")
                 .result(seasonService.getSeasonById(seasonId))
                 .build();
     }
@@ -38,7 +38,7 @@ public class SeasonController {
     public ApiResponse<List<Season>> getAllSeasonsByTournamentId(@PathVariable("tournamentId") Long tournamentId) {
         return ApiResponse.<List<Season>>builder()
                 .code(200)
-                .message("")
+                .message("Lấy danh sách mùa giải theo id giải đua thành công")
                 .result(seasonService.findAllSeasonByTournamentId(tournamentId))
                 .build();
     }
@@ -48,7 +48,7 @@ public class SeasonController {
                                             @RequestBody UpdateSeasonRequest updateSeasonRequest) {
         return ApiResponse.<Season>builder()
                 .code(200)
-                .message("")
+                .message("Cập nhật thông tin mùa giải thành công")
                 .result(seasonService.updateSeason(seasonId ,updateSeasonRequest))
                 .build();
     }
@@ -57,7 +57,7 @@ public class SeasonController {
     public ApiResponse<Season> deleteSeasonById(@PathVariable("seasonId") Long seasonId) {
         return ApiResponse.<Season>builder()
                 .code(200)
-                .message("")
+                .message("Xóa mùa giải thành công")
                 .result(seasonService.deleteSeason(seasonId))
                 .build();
     }

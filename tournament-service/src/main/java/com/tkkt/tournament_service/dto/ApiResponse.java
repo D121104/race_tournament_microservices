@@ -1,4 +1,4 @@
-package com.tkkt.dto;
+package com.tkkt.tournament_service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

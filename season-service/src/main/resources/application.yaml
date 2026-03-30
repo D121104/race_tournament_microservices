@@ -1,3 +1,6 @@
 spring:
   application:
     name: season-service
+
+server:
+  port: 8081

@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
-    SEASON_NOT_FOUND(1000, "Season not found", HttpStatus.NOT_FOUND),
+    INVALID_KEY(1001, "Uncategorized error", HttpStatus.BAD_REQUEST),
+    SEASON_NOT_FOUND(1002, "Season not found", HttpStatus.NOT_FOUND),
     ;
     private final int code;
     private final String message;

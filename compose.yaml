@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   race-db:
@@ -32,5 +31,69 @@ services:
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
+  season-db:
+    image: mysql:8.0
+    container_name: season-db
+    ports:
+      - "3010:3306"
+    environment:
+      MYSQL_DATABASE: season-db
+      MYSQL_ROOT_PASSWORD: 123456
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SQL: true
+    volumes:
+      - season-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+  season-service:
+    build: ./season-service
+    container_name: season-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      season-db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://season-db:3306/season_db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  tournament-db:
+    image: mysql:8.0
+    container_name: tournament-db
+    ports:
+      - "3011:3306"
+    environment:
+      MYSQL_DATABASE: tournament-db
+      MYSQL_ROOT_PASSWORD: 123456
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SQL: true
+    volumes:
+      - tournament-db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
+  tournament-service:
+    build: ./tournament-service
+    container_name: tournament-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      tournament-db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://tournament-db:3306/season_db?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123456
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
 volumes:
   race-db-data:
+  season-db-data:
+  tournament-db-data:

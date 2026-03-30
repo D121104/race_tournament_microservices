@@ -1,6 +1,6 @@
-package com.tkkt.exception;
+package com.tkkt.tournament_service.exception;
 
-import com.tkkt.dto.ApiResponse;
+import com.tkkt.tournament_service.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

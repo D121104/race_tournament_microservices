@@ -1,4 +1,4 @@
-package com.tkkt.exception;
+package com.tkkt.tournament_service.exception;
 
 public class AppException extends RuntimeException {
     private ErrorCode errorCode;
