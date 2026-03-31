@@ -8,6 +8,9 @@ import com.tkkt.tournament_service.exception.AppException;
 import com.tkkt.tournament_service.exception.ErrorCode;
 import com.tkkt.tournament_service.repository.TournamentRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +37,13 @@ public class TournamentService {
     }
 
     @Transactional(readOnly = true)
-    public List<Tournament> getAllTournament() {
+    public Page<Tournament> getAllTournaments(@PageableDefault
+                                                     (page = 0, size=10) Pageable pageable) {
+        return tournamentRepository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Tournament> getAllTournaments() {
         return tournamentRepository.findAll();
     }
 

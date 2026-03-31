@@ -19,6 +19,18 @@ spring:
           uri: lb://TOURNAMENT-SERVICE
           predicates:
             - Path=/api/tournaments/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
 eureka:
   client:
     service-url:

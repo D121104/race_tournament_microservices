@@ -6,6 +6,10 @@ import com.tkkt.season_service.dto.request.UpdateSeasonRequest;
 import com.tkkt.season_service.entity.Season;
 import com.tkkt.season_service.service.SeasonService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,12 +38,24 @@ public class SeasonController {
                 .build();
     }
 
-    @GetMapping("tournament/{tournamentId}")
+    @GetMapping("tournament/{tournamentId}/all")
     public ApiResponse<List<Season>> getAllSeasonsByTournamentId(@PathVariable("tournamentId") Long tournamentId) {
         return ApiResponse.<List<Season>>builder()
                 .code(200)
                 .message("Lấy danh sách mùa giải theo id giải đua thành công")
                 .result(seasonService.findAllSeasonByTournamentId(tournamentId))
+                .build();
+    }
+
+    @GetMapping("tournament/{tournamentId}")
+    public ApiResponse<Page<Season>> getAllSeasonsByTournamentId(
+            @PathVariable("tournamentId") Long tournamentId,
+            @PageableDefault(page = 0, size = 10) Pageable pageable
+    ) {
+        return ApiResponse.<Page<Season>>builder()
+                .code(200)
+                .message("Lấy danh sách mùa giải theo id giải đua thành công")
+                .result(seasonService.findAllSeasonByTournamentId(pageable,tournamentId))
                 .build();
     }
 

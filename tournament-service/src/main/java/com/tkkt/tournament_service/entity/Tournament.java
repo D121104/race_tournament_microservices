@@ -26,11 +26,4 @@ public class Tournament implements Serializable {
     @Column(name = "description")
     private String description;
 
-//    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @Builder.Default
-//    private List<Season> seasons = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "tournament", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @Builder.Default
-//    private List<Employee> employees = new ArrayList<>();
 }

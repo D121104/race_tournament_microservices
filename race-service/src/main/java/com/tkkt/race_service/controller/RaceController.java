@@ -6,6 +6,10 @@ import com.tkkt.race_service.entity.Race;
 import com.tkkt.race_service.service.RaceService;
 import com.tkkt.race_service.dto.ApiResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +20,34 @@ import java.util.List;
 public class RaceController {
     private  final  RaceService raceService;
 
-    @GetMapping("seasons/{seasonId}")
+    @Cacheable("races-all")
+    @GetMapping("")
+    public ApiResponse<Page<Race>> getAllRace(
+            @PageableDefault(page = 0, size = 10)Pageable pageable) {
+        return ApiResponse.<Page<Race>>builder()
+                .code(200)
+                .message("Lấy thông tin giải đua thành công")
+                .result(raceService.findAllRace(pageable))
+                .build();
+    }
+
+    @GetMapping("seasons/{seasonId}/all")
     public ApiResponse<List<Race>> getAllRaceBySeasonId(@PathVariable("seasonId") Long seasonId) {
         return ApiResponse.<List<Race>>builder()
                 .code(200)
                 .message("Lấy thông tin giải đua theo mùa giải thành công")
                 .result(raceService.findAllRaceBySeasonId(seasonId))
+                .build();
+    }
+
+    @GetMapping("seasons/{seasonId}")
+    public ApiResponse<Page<Race>> getAllRaceBySeasonId(
+            @PathVariable("seasonId") Long seasonId,
+            @PageableDefault(page = 0, size = 10)Pageable pageable) {
+        return ApiResponse.<Page<Race>>builder()
+                .code(200)
+                .message("Lấy thông tin giải đua theo mùa giải thành công")
+                .result(raceService.findAllRaceBySeasonId(seasonId, pageable))
                 .build();
     }
 

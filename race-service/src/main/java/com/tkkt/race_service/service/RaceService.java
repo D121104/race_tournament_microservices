@@ -7,6 +7,9 @@ import com.tkkt.race_service.exception.AppException;
 import com.tkkt.race_service.exception.ErrorCode;
 import com.tkkt.race_service.repository.RaceRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +22,18 @@ public class RaceService {
 
     @Transactional(readOnly = true)
     public List<Race> findAllRaceBySeasonId(Long seasonId) {
-        List<Race> races = raceRepository.findBySeasonId(seasonId);
-        if (races.isEmpty()) {
-            throw new AppException(ErrorCode.NOT_FOUND_RACE);
-        }
-        return races;
+        return raceRepository.findBySeasonId(seasonId);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Race> findAllRaceBySeasonId(Long seasonId,
+                                            @PageableDefault(page = 0, size = 10, sort = "date") Pageable pageable) {
+        return raceRepository.findBySeasonId(seasonId, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Race> findAllRace(@PageableDefault(page = 0, size = 10, sort = "date") Pageable pageable) {
+        return raceRepository.findAll(pageable);
     }
 
     @Transactional

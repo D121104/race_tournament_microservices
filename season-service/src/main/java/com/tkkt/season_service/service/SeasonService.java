@@ -7,6 +7,9 @@ import com.tkkt.season_service.exception.AppException;
 import com.tkkt.season_service.exception.ErrorCode;
 import com.tkkt.season_service.repository.SeasonRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,13 @@ public class SeasonService {
     @Transactional(readOnly = true)
     public List<Season> findAllSeasonByTournamentId(Long tournamentId) {
         return seasonRepository.findByTournamentId(tournamentId);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Season> findAllSeasonByTournamentId(
+            @PageableDefault(page = 0, size = 10, sort = "yearOfOrganization") Pageable pageable,
+            Long tournamentId) {
+        return seasonRepository.findByTournamentId(tournamentId, pageable);
     }
 
     @Transactional(readOnly = true)

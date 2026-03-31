@@ -6,6 +6,10 @@ import com.tkkt.tournament_service.dto.request.UpdateTournamentRequest;
 import com.tkkt.tournament_service.entity.Tournament;
 import com.tkkt.tournament_service.service.TournamentService;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +39,22 @@ public class TournamentController {
                 .build();
     }
 
-    @GetMapping("")
+    @GetMapping
+    public ApiResponse<Page<Tournament>> getAllTournaments(@PageableDefault(size = 10) Pageable pageable) {
+        return ApiResponse.<Page<Tournament>>builder()
+                .code(201)
+                .message("")
+                .result(tournamentService.getAllTournaments(pageable))
+                .build();
+    }
+
+    @Cacheable("tournaments-all")
+    @GetMapping("all")
     public ApiResponse<List<Tournament>> getAllTournament() {
         return ApiResponse.<List<Tournament>>builder()
                 .code(201)
                 .message("")
-                .result(tournamentService.getAllTournament())
+                .result(tournamentService.getAllTournaments())
                 .build();
     }
 
